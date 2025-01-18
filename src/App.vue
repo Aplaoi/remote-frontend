@@ -32,10 +32,23 @@ const postMessage = async () => {
 const fetchVideoStream = async () => {
 	try {
 		const res = await axios.get(url + "/video", {responseType: "blob"});
-		imageSrc.value = URL.createObjectURL(res.data);
-		fetchVideoStream();
+		const newImageSrc = URL.createObjectURL(res.data);
+		
+		const img = new Image();
+		img.src = newImageSrc;
+		img.onload = () => {
+			imageSrc.value = newImageSrc;
+			// console.log("成功获取图片");
+			setTimeout(fetchVideoStream, 33);
+		}
+		img.onerror = () => {
+			console.log("图片加载失败");
+			setTimeout(fetchVideoStream, 33);
+		}
+		
 	} catch (err) {
 		console.log("获取图片流失败" + err);
+		setTimeout(fetchVideoStream, 33)
 	}
 }
 
@@ -46,16 +59,17 @@ onMounted(() => {
 </script>
 
 <template>
-	<h1>配置信息修改</h1>
-	<el-row>
-		<el-col>
-			<el-input v-model="configText" :rows="30" style="width: 500px" type="textarea"/>
+	<h1>Debug面板</h1>
+	<el-row :gutter="40">
+		<el-col :span="12">
+			<el-input v-model="configText" :rows="30" type="textarea"/>
 			<br>
 			<el-button type="primary" @click="fetchMessage">刷新</el-button>
 			<el-button type="success" @click="postMessage">保存</el-button>
 		</el-col>
-		<el-col>
-			<el-image :src="imageSrc" fit="cover"></el-image>
+		<el-col :span="12">
+			<el-image :src="imageSrc" fit="cover"
+			          style="width: 100%; height: 500px"></el-image>
 		</el-col>
 	</el-row>
 
