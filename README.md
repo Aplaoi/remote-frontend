@@ -2,7 +2,7 @@
 
 ## 项目概述
 
-本项目是一个基于 Vue 3 和 axios 构建的前端项目，用于 RM 后端项目(https://github.com/Aplaoi/remote-backend)的可视化展示，需要在 Node.js 环境下运行。项目使用 Vite 作为构建工具，Element Plus 作为 UI 组件库。
+本项目是一个基于 Vue 3 和 axios 构建的前端项目，用于 RM 后端项目( https://github.com/Aplaoi/remote-backend )的可视化展示，需要在 Node.js 环境下运行。项目使用 Vite 作为构建工具，Element Plus 作为 UI 组件库。
 
 ## 项目运行
 
@@ -10,7 +10,7 @@
 
 ### 安装 Node.js
 
-从 Node.js 官方网站（https://nodejs.org/）下载并安装
+从 Node.js 官方网站（ https://nodejs.org/ ）下载并安装
 
 ### 安装项目依赖
 
