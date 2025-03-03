@@ -4,8 +4,8 @@ import axios from 'axios';
 import {ElMessage} from "element-plus";
 
 const configText = ref("");
-const imageSrc = ref("");
-const url = "http://192.168.0.105:9002";
+const videoUrl = ref("");
+const url = "http://192.168.31.192:9002";
 
 const fetchMessage = async () => {
 	try {
@@ -29,32 +29,38 @@ const postMessage = async () => {
 	}
 }
 
-const fetchVideoStream = async () => {
-	try {
-		const res = await axios.get(url + "/video", {responseType: "blob"});
-		const newImageSrc = URL.createObjectURL(res.data);
-		
-		const img = new Image();
-		img.src = newImageSrc;
-		img.onload = () => {
-			imageSrc.value = newImageSrc;
-			// console.log("成功获取图片");
-			setTimeout(fetchVideoStream, 33);
-		}
-		img.onerror = () => {
-			console.log("图片加载失败");
-			setTimeout(fetchVideoStream, 33);
-		}
-		
-	} catch (err) {
-		console.log("获取图片流失败" + err);
-		setTimeout(fetchVideoStream, 33)
-	}
+// const fetchVideoStream = async () => {
+// 	try {
+// 		const res = await axios.get(url + "/video", {responseType: "blob"});
+// 		const newImageSrc = URL.createObjectURL(res.data);
+//
+// 		const img = new Image();
+// 		img.src = newImageSrc;
+// 		img.onload = () => {
+// 			imageSrc.value = newImageSrc;
+// 			// console.log("成功获取图片");
+// 			setTimeout(fetchVideoStream, 33);
+// 		}
+// 		img.onerror = () => {
+// 			console.log("图片加载失败");
+// 			setTimeout(fetchVideoStream, 33);
+// 		}
+//
+// 	} catch (err) {
+// 		console.log("获取图片流失败" + err);
+// 		setTimeout(fetchVideoStream, 33)
+// 	}
+// }
+
+const handleError=()=>{
+	console.log("获取视频流失败");
+	ElMessage.error("获取视频流失败")
 }
+
 
 onMounted(() => {
 	fetchMessage();
-	fetchVideoStream();
+	videoUrl.value = `${url}/video`
 });
 </script>
 
@@ -68,8 +74,7 @@ onMounted(() => {
 			<el-button type="success" @click="postMessage">保存</el-button>
 		</el-col>
 		<el-col :span="12">
-			<el-image :src="imageSrc" fit="cover"
-			          style="width: 100%; height: 500px"></el-image>
+			<img :src="videoUrl" style="width: 100%; height: 500px; object-fit: cover" alt="" @error="handleError">
 		</el-col>
 	</el-row>
 
